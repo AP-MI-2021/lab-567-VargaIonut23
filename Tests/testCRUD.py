@@ -36,3 +36,12 @@ def testmodificarezervare():
     assert getclasa(getbyid("2", lista)) == "economy"
     assert getpret(getbyid("2", lista)) == 113.90
     assert getcheckin(getbyid("2", lista)) == "nu"
+
+def testgetbyid():
+    lista = []
+    lista = adaugarezervare("1", "Ionut", "economy", 317.78, "da", lista)
+    lista = adaugarezervare("2", "Denis", "business", 1119.90, "nu", lista)
+    lista = adaugarezervare("3", "Robert", "economy plus", 890.02, "da", lista)
+    assert getbyid("1" , lista) == ("1", "Ionut", "economy", 317.78, "da")
+    assert getbyid("2" , lista) ==("2", "Denis", "business", 1119.90, "nu")
+    assert getbyid("3" , lista) == ("3", "Robert", "economy plus", 890.02, "da")

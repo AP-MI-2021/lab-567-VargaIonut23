@@ -10,16 +10,16 @@ def cerinta4(lista):
     listanoua = []
     for rezervare in lista:
         rezervarenoua = creeazarezervare(
-            getId(rezervare),
-            getnume(rezervare),
-            getclasa(rezervare),
-            getpret(rezervare),
-            getcheckin(rezervare),
+            rezervare[0],
+            rezervare[1],
+            rezervare[2],
+            rezervare[3],
+            rezervare[4],
         )
         if getclasa(rezervarenoua) == 'economy':
-            rezervarenoua['clasa'] = 'economy plus'
+            rezervarenoua = (rezervare[0] ,rezervare[1] ,'economy plus' , rezervare[3],rezervare[4])
         elif getclasa(rezervarenoua) == 'economy plus':
-            rezervarenoua['clasa'] = 'business'
+            rezervarenoua = (rezervare[0], rezervare[1], 'business', rezervare[3], rezervare[4])
         listanoua.append(rezervarenoua)
     return listanoua
 
@@ -40,7 +40,7 @@ def cerinta5(lista, procentaj):
             getcheckin(rezervare),
         )
         if getcheckin(rezervarenoua) == 'da' :
-            rezervarenoua['pret'] = rezervarenoua['pret'] - (procentaj * rezervarenoua['pret'] / 100)
+            rezervarenoua[3] = rezervarenoua[3] - (procentaj * rezervarenoua[3] / 100)
         listanoua.append(rezervarenoua)
     return listanoua
 
@@ -60,7 +60,7 @@ def cerinta6economy(lista):
             getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'economy' and getpret(rezervarenoua) > maxi :
-            maxi = rezervarenoua['pret']
+            maxi = rezervarenoua[3]
     return maxi
 
 def cerinta6economyplus(lista):
@@ -79,7 +79,7 @@ def cerinta6economyplus(lista):
             getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'economy plus' and getpret(rezervarenoua) > maxi:
-            maxi = rezervarenoua['pret']
+            maxi = rezervarenoua[3]
     return maxi
 
 def cerinta6business(lista):
@@ -98,5 +98,5 @@ def cerinta6business(lista):
             getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'business' and getpret(rezervarenoua) > maxi:
-            maxi = rezervarenoua['pret']
+            maxi = rezervarenoua[3]
     return maxi
