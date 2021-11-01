@@ -42,6 +42,6 @@ def testgetbyid():
     lista = adaugarezervare("1", "Ionut", "economy", 317.78, "da", lista)
     lista = adaugarezervare("2", "Denis", "business", 1119.90, "nu", lista)
     lista = adaugarezervare("3", "Robert", "economy plus", 890.02, "da", lista)
-    assert getbyid("1" , lista) == ("1", "Ionut", "economy", 317.78, "da")
-    assert getbyid("2" , lista) ==("2", "Denis", "business", 1119.90, "nu")
-    assert getbyid("3" , lista) == ("3", "Robert", "economy plus", 890.02, "da")
+    assert getbyid("1" , lista) == lista[0]
+    assert getbyid("2" , lista) == lista[1]
+    assert getbyid("3" , lista) == lista[2]

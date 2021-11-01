@@ -8,55 +8,59 @@ def creeazarezervare(id , nume , clasa , pret , checkin):
     :param checkin: string
     :return: un dictionar ce retine o rezervare
     '''
-    tuplu = (id , nume , clasa , pret , checkin)
-    return tuplu
+    return {
+        'id' : id,
+        'nume' : nume,
+        'clasa' : clasa,
+        'pret' : pret,
+        'checkin' : checkin
+    }
 
-
-def getId(tuplu):
+def getId(rezervare):
     '''
     ia id-ul rezervarii
     :param rezervare: dictionar de tipul rezervare
     :return: id-ul prajiturii
     '''
-    return tuplu[0]
+    return rezervare['id']
 
-def getnume(tuplu):
+def getnume(rezervare):
     '''
     ia numele din rezervare
     :param rezervare: dictionar de tipul rezervare
     :return: numele din rezervare
     '''
-    return tuplu[1]
+    return rezervare['nume']
 
-def getclasa(tuplu):
+def getclasa(rezervare):
     '''
     ia clasa rezervarii
     :param rezervare: dictionar de tipul rezervare
     :return: clasa rezervarii
     '''
-    return tuplu[2]
+    return rezervare['clasa']
 
-def getpret(tuplu):
+def getpret(rezervare):
     '''
     ia pretul din rezervare
     :param rezervare: dictionar de tipul rezervare
     :return: pretul din rezervare
     '''
-    return tuplu[3]
+    return rezervare['pret']
 
-def getcheckin(tuplu):
+def getcheckin(rezervare):
     '''
     ia checkin ul rezervarii
     :param rezervare: dictionar de tipul rezervare
     :return: checkin ul rezervarii
     '''
-    return tuplu[4]
+    return rezervare['checkin']
 
-def toString(tuplu):
+def toString(rezervare):
     return 'id: {}, nume: {}, clasa: {}, pret: {}, checkin: {}'.format(
-        getId(tuplu) ,
-        getnume(tuplu) ,
-        getclasa(tuplu) ,
-        getpret(tuplu) ,
-        getcheckin(tuplu)
+        getId(rezervare) ,
+        getnume(rezervare) ,
+        getclasa(rezervare) ,
+        getpret(rezervare) ,
+        getcheckin(rezervare)
     )

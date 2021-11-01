@@ -10,16 +10,16 @@ def cerinta4(lista):
     listanoua = []
     for rezervare in lista:
         rezervarenoua = creeazarezervare(
-            rezervare[0],
-            rezervare[1],
-            rezervare[2],
-            rezervare[3],
-            rezervare[4],
+            getId(rezervare),
+            getnume(rezervare),
+            getclasa(rezervare),
+            getpret(rezervare),
+            getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'economy':
-            rezervarenoua = (rezervare[0] ,rezervare[1] ,'economy plus' , rezervare[3],rezervare[4])
+            rezervarenoua['clasa'] = 'economy plus'
         elif getclasa(rezervarenoua) == 'economy plus':
-            rezervarenoua = (rezervare[0], rezervare[1], 'business', rezervare[3], rezervare[4])
+            rezervarenoua['clasa'] = 'business'
         listanoua.append(rezervarenoua)
     return listanoua
 
@@ -40,7 +40,7 @@ def cerinta5(lista, procentaj):
             getcheckin(rezervare),
         )
         if getcheckin(rezervarenoua) == 'da' :
-            rezervarenoua[3] = rezervarenoua[3] - (procentaj * rezervarenoua[3] / 100)
+            rezervarenoua['pret'] = rezervarenoua['pret'] - (procentaj * rezervarenoua['pret'] / 100)
         listanoua.append(rezervarenoua)
     return listanoua
 
@@ -60,7 +60,7 @@ def cerinta6economy(lista):
             getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'economy' and getpret(rezervarenoua) > maxi :
-            maxi = rezervarenoua[3]
+            maxi = rezervarenoua['pret']
     return maxi
 
 def cerinta6economyplus(lista):
@@ -79,7 +79,7 @@ def cerinta6economyplus(lista):
             getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'economy plus' and getpret(rezervarenoua) > maxi:
-            maxi = rezervarenoua[3]
+            maxi = rezervarenoua['pret']
     return maxi
 
 def cerinta6business(lista):
@@ -98,5 +98,24 @@ def cerinta6business(lista):
             getcheckin(rezervare),
         )
         if getclasa(rezervarenoua) == 'business' and getpret(rezervarenoua) > maxi:
-            maxi = rezervarenoua[3]
+            maxi = rezervarenoua['pret']
     return maxi
+
+def cerinta7(lista):
+    '''
+    ordoaneaza lista descrescator dupa pret
+    :param lista:lista de rezervari
+    :return: lista ordonata descrescator
+    '''
+    return sorted(lista, key= lambda rezervare: getpret(rezervare), reverse = True)
+
+def cerinta8(lista):
+    rezultat = {}
+    for rezervare in lista:
+        nume = getnume(rezervare)
+        pret = getpret(rezervare)
+        if nume in rezultat:
+            rezultat[nume] = rezultat[nume] + pret
+        else:
+            rezultat[nume] = pret
+    return rezultat
