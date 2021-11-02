@@ -1,72 +1,34 @@
 from Domain.rezervare import toString
-from Logic.CRUD import adaugarezervare, stergerezervare, modificarezervare
+from Logic.CRUD import adaugarezervare, stergerezervare
 
 
-def printMenuconsole():
-    print("C. Comenzi.")
-    print("b. Afisare")
-    print("x. Iesire")
-
-def uireadCommandLine(lista):
-    stringCommandLine = input("Dati comenzile separate prin virgula:")
-    return readCommandLine(stringCommandLine,lista)
-
+def printDescriere():
+    print("Lista de comenzi va fi separat prin ; ")
+    print("Comenzile pot fi: add, showall, delete, exit ")
+    print("Parametri dintr-o comanda vor fi separati prin ,")
 
 def command_line_console(lista):
+    print (printDescriere())
     while True:
-        printMenuconsole()
-        optiune = input("Dati optiunea: ")
-        if optiune == "C":
-            lista = uireadCommandLine(lista)
-        elif optiune == "b":
-            showAllCommand(lista)
-        elif optiune == "x":
-            break
-        else:
-            print("Optiune gresita!Reincercati!")
+        lista = []
+        listainput = []
+        listainput = input("Dati lista de comenzi: ")
+        listacomenzi = []
+        listacomenzi = listainput.split(",")
+        i = 1
+        for i in range(len(listacomenzi)):
+            if listacomenzi[i] == "add":
+                lista = adaugarezervare(listacomenzi[i+1], listacomenzi[i+2], listacomenzi[i+3], listacomenzi[i+4], listacomenzi[i+5], lista)
+                i = i + 6
+            elif listacomenzi[i] == "delete":
+                lista = stergerezervare(listacomenzi[i+1], lista)
+                i = i + 2
+            elif listacomenzi[i] == "showall":
+                for rezervare in lista:
+                    print(toString(rezervare))
+                i=i+1
+            elif listacomenzi[i] == "exit":
+                break
 
 
-def readCommandLine(stringCommandLine, lista):
-    list = stringCommandLine.split(",")
-    for i in range(len(list)):
-        if list[i] == "add":
-            try:
-                id = int(list[i + 1])
-                nume = float(list[i + 2])
-                clasa = list[i + 3]
-                pret = list[i + 4]
-                checkin = list[i + 5]
-                lista = adaugarezervare(id, nume, clasa, pret, checkin, lista)
-            except ValueError as ve:
-                print("Eroare: {}".format(ve))
-            print("Adaugarea s a realizat cu succes")
-            i = i + 5
-        elif list[i] == "delete":
-            try:
-               rezervare = int(list[i + 1])
-               lista = stergerezervare(rezervare, lista)
-            except ValueError as ve:
-              print("Eroare: {}".format(ve))
-            print("Stergerea s a realizat cu succes")
-            i = i + 2
-        elif list[i] == "update":
-            try:
-                id = int(list[i + 1])
-                nume = str(list[i + 2])
-                clasa = str(list[i + 3])
-                pret = float(list[i + 4])
-                checkin = str(list[i + 5])
-                lista = modificarezervare(id, nume, clasa, pret, checkin, lista)
-            except ValueError as ve:
-                print("Eroare: {}".format(ve))
-            print("Modificarea s a realizat cu succes")
-            i = i + 5
-        elif lista[i] == "showall":
-            lista = showAllCommand(lista)
-            i = i + 1
-    return lista
 
-
-def showAllCommand(lista):
-    for rezervare in lista:
-        print(toString(rezervare))
