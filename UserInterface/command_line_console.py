@@ -9,9 +9,9 @@ def printDescriere():
 
 def command_line_console(lista):
     print (printDescriere())
+    lista = []
+    listainput = []
     while True:
-        lista = []
-        listainput = []
         listainput = input("Dati lista de comenzi: ")
         listacomenzi = []
         listacomenzi = listainput.split(",")
@@ -29,6 +29,4 @@ def command_line_console(lista):
                 i=i+1
             elif listacomenzi[i] == "exit":
                 break
-
-
 
