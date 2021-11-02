@@ -5,15 +5,18 @@ from UserInterface.console import runmenu
 
 def main():
     runAllTests()
-
-    print("1)Interfata clasica:")
-    print("2)Interfata modificata:")
-    optiune =input("Dati codul de interfata pe care doriti sa o accesati: ")
-
-    if optiune == '1':
-        runmenu([])
-    else:
-        command_line_console([])
+    lista = []
+    ui = input("Introduceti ui pentru console si cil pentru command in line: ")
+    while True:
+        if ui == "ui":
+            runmenu(lista)
+            break
+        elif ui == "cil":
+            command_line_console(lista)
+            break
+        else:
+            print('Optiune inexistenta')
+            break
 
 if __name__ == "__main__":
     main()

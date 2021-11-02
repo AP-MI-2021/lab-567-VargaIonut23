@@ -1,68 +1,72 @@
 from Domain.rezervare import toString
-from Logic.CRUD import modificarezervare, stergerezervare, adaugarezervare
-from Logic.cerinte import cerinta7, cerinta5
+from Logic.CRUD import adaugarezervare, stergerezervare, modificarezervare
 
 
-def printmenu1():
-    print("1)Add:")
-    print("2)Showall: ")
-    print("3)Delete: ")
-    print("4)Stop: ")
+def printMenuconsole():
+    print("C. Comenzi.")
+    print("b. Afisare")
+    print("x. Iesire")
 
-def add_rezervare(lista):
-    try:
-        id = input("Dati ID: ")
-        titlu = input("Titlu: ")
-        pret = input("Pret: ")
-        gen = input("Genul: ")
-        reducere = input("Reducere(Silver/Gold): ")
-        return adaugarezervare(id,titlu,gen,pret,reducere,lista)
-    except ValueError as ve:
-        print("Eroare: {}".format(ve))
-        return lista
-
-def sterg_rezervare(lista):
-    try:
-        id = input("Dati id ul unei comenzi: ")
-        return stergerezervare(id,lista)
-    except ValueError as ve:
-        print("Eroare: {}".format(ve))
-        return lista
-
-def modif_rezervare(lista):
-    try:
-        id = input("Dati ID ul comenzii de modificat: ")
-        titlu = input("Titlu nou: ")
-        pret = input("Pret nou: ")
-        gen = input("Genul nou: ")
-        reducere = input("Reducere noua (Silver/Gold): ")
-        return modificarezervare(id,titlu,gen,pret,reducere,lista)
-    except ValueError as ve:
-        print("Eroare: {}".format(ve))
-        return lista
-
-def arata(lista):
-    for comanda in lista:
-        print(toString(comanda))
-
-def ord_descresc(lista):
-    return cerinta7(lista)
-
-def aplic_discount(lista):
-    return cerinta5(lista)
+def uireadCommandLine(lista):
+    stringCommandLine = input("Dati comenzile separate prin virgula:")
+    return readCommandLine(stringCommandLine,lista)
 
 
 def command_line_console(lista):
     while True:
-        printmenu1()
-        optiune = input("Introduceti optiunea: ")
-        if optiune == "1":
-            lista = add_rezervare(lista)
-        elif optiune =="2":
-            print(lista)
-        elif optiune =="3":
-            lista = sterg_rezervare(lista)
-        elif optiune =="4":
+        printMenuconsole()
+        optiune = input("Dati optiunea: ")
+        if optiune == "C":
+            lista = uireadCommandLine(lista)
+        elif optiune == "b":
+            showAllCommand(lista)
+        elif optiune == "x":
             break
         else:
-            print("Optiune incorecta! Reincercati: ")
+            print("Optiune gresita!Reincercati!")
+
+
+def readCommandLine(stringCommandLine, lista):
+    list = stringCommandLine.split(",")
+    for i in range(len(list)):
+        if list[i] == "add":
+            try:
+                id = int(list[i + 1])
+                nume = float(list[i + 2])
+                clasa = list[i + 3]
+                pret = list[i + 4]
+                checkin = list[i + 5]
+                lista = adaugarezervare(id, nume, clasa, pret, checkin, lista)
+            except ValueError as ve:
+                print("Eroare: {}".format(ve))
+            print("Adaugarea s a realizat cu succes")
+            i = i + 5
+        elif list[i] == "delete":
+            try:
+               rezervare = int(list[i + 1])
+               lista = stergerezervare(rezervare, lista)
+            except ValueError as ve:
+              print("Eroare: {}".format(ve))
+            print("Stergerea s a realizat cu succes")
+            i = i + 2
+        elif list[i] == "update":
+            try:
+                id = int(list[i + 1])
+                nume = str(list[i + 2])
+                clasa = str(list[i + 3])
+                pret = float(list[i + 4])
+                checkin = str(list[i + 5])
+                lista = modificarezervare(id, nume, clasa, pret, checkin, lista)
+            except ValueError as ve:
+                print("Eroare: {}".format(ve))
+            print("Modificarea s a realizat cu succes")
+            i = i + 5
+        elif lista[i] == "showall":
+            lista = showAllCommand(lista)
+            i = i + 1
+    return lista
+
+
+def showAllCommand(lista):
+    for rezervare in lista:
+        print(toString(rezervare))
