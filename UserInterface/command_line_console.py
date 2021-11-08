@@ -26,7 +26,7 @@ def command_line_console(lista):
             elif listacomenzi[i] == "showall":
                 for rezervare in lista:
                     print(toString(rezervare))
-                i=i+1
+                i = i + 1
             elif listacomenzi[i] == "exit":
                 break
 
