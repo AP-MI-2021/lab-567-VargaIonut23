@@ -21,6 +21,3 @@ def main():
 if __name__ == "__main__":
     main()
 
-#add,1,test,economy,300,nu,showall,delete,2
-#add,1,test,economy,300,nu,showall
-#update,1,test1,economy plus,100,da,showall

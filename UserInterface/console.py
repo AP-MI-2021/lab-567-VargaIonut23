@@ -1,6 +1,7 @@
 from Domain.rezervare import toString, getnume, getclasa, getpret, getcheckin
 from Logic.CRUD import adaugarezervare, stergerezervare, modificarezervare, getbyid
-from Logic.cerinte import cerinta4, cerinta5, cerinta6economyplus, cerinta6economy, cerinta6business, cerinta7, cerinta8
+from Logic.cerinte import cerinta4, cerinta5, cerinta6economyplus, cerinta6economy, cerinta6business, cerinta7, \
+    cerinta8, Undo, Redo
 
 
 def printmenu():
@@ -117,23 +118,6 @@ def uicerinta7(lista, undoList, redoList):
         print("Eroare: {}".format(ve))
         return lista
 
-
-def uiundo(lista,undoList,redoList):
-    if len(undoList) > 0:
-        redoList.append(lista)
-        lista = undoList.pop()
-    else:
-        print('Nu se poate face undo')
-
-
-def uiredo(lista, undoList, redoList):
-    if len(redoList) > 0:
-        undoList.append(lista)
-        lista = redoList.pop()
-    else:
-        print("Nu se poate face redo!")
-
-
 def runmenu(lista):
     undoList = []
     redoList =[]
@@ -153,13 +137,21 @@ def runmenu(lista):
         elif optiune == '6':
             uicerinta6(lista)
         elif optiune == '7':
-            print(uicerinta7(lista, undoList, redoList))
+            lista = uicerinta7(lista, undoList, redoList)
         elif optiune == '8':
             uicerinta8(lista, undoList, redoList)
         elif optiune == 'u':
-            uiundo(lista, undoList, redoList)
+            if len(undoList) > 0:
+                redoList.append(lista)
+                lista = undoList.pop()
+            else:
+                print("Nu se poate face undo!")
         elif optiune == 'r':
-            uiredo(lista, undoList, redoList)
+            if len(redoList) > 0:
+                undoList.append(lista)
+                lista = redoList.pop()
+            else:
+                print("Nu se poate face redo!")
         elif optiune == 'a':
             showall(lista)
         elif optiune == 'x':
