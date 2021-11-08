@@ -13,11 +13,11 @@ def printmenu():
     print('7. Odoneaza rezervarile in ordine descrescatoare dupa pret')
     print('8. Afișarea sumelor prețurilor pentru fiecare nume.')
     print('u. Undo')
-    #print('r. Redo')
+    print('r. Redo')
     print('a. Afiseaza toate rezervarile')
     print('x. Iesire')
 
-def UIadaugarezervare(lista ,undooperations):
+def UIadaugarezervare(lista ,undoList, redoList):
     try:
         id = input('Dati id-ul: ')
         nume = input('Dati un nume: ')
@@ -25,33 +25,27 @@ def UIadaugarezervare(lista ,undooperations):
         pret = float(input('Dati pretul: '))
         checkin = input('Dati checkin: ')
         rezultat = adaugarezervare(id, nume, clasa, pret, checkin, lista)
-        undooperations.append(lambda: stergerezervare(id, rezultat))
+        undoList.append(lista)
+        redoList.clear()
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
 
 
-def UIstergerezervare(lista, undooperations):
+def UIstergerezervare(lista, undoList ,redoList):
     try:
         id = input('Dati id-ul rezervarii pe care vreti sa o stergeti: ')
 
         rezultat = stergerezervare(id , lista)
-        rezervaredesters = getbyid(id, lista)
-        undooperations.append(
-            lambda: adaugarezervare(
-            id,
-            getnume(rezervaredesters),
-            getclasa(rezervaredesters),
-            getpret(rezervaredesters),
-            getcheckin(rezervaredesters),
-            rezultat))
+        undoList.append(lista)
+        redoList.clear()
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
 
-def UImodificarezervare(lista, undooperations):
+def UImodificarezervare(lista, undoList, redoList):
     try:
         id = input('Dati id-ul rezervarii de modificat: ')
         nume = input('Dati numele rezervarii de modificat: ')
@@ -59,28 +53,26 @@ def UImodificarezervare(lista, undooperations):
         pret = float(input('Dati pretul rezervarii de modificat: '))
         checkin = input('Dati checkin-ul rezervarii de modificat: ')
         rezultat =  modificarezervare(id, nume, clasa, pret, checkin, lista)
-        rezervaredemodificat = getbyid(id, lista)
-        undooperations.append(lambda: modificarezervare(
-                id,
-                getnume(rezervaredemodificat),
-                getclasa(rezervaredemodificat),
-                getpret(rezervaredemodificat),
-                getcheckin(rezervaredemodificat),
-                rezultat) )
+        undoList.append(lista)
+        redoList.clear()
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
+
 
 def showall(lista):
     for rezervare in lista:
         print(toString(rezervare))
 
 
-def uicerinta5(lista):
+def uicerinta5(lista, undoList, redoList):
     try:
         procentaj = int(input('Dati un procentaj cu care sa se reduca preturile celor care au checkin ul facut: '))
-        lista = cerinta5(lista, procentaj)
+        result = cerinta5(lista, procentaj)
+        undoList.append(lista)
+        redoList.clear()
+        return result
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
@@ -92,38 +84,82 @@ def uicerinta6(lista):
     print('Pretul maxim de la business este: {} '.format(cerinta6business(lista)))
 
 
-def uicerinta8(lista):
-    print(cerinta8(lista))
+def uicerinta8(lista, undoList, redoList):
+    try:
+        result = cerinta8(lista)
+        undoList.append(lista)
+        redoList.clear()
+        return result
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+
+def uicerinta4(lista, undoList, redoList):
+    try:
+        nume = input("Dati un nume: ")
+        result = cerinta4(lista, nume)
+        undoList.append(lista)
+        redoList.clear()
+        return result
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+
+def uicerinta7(lista, undoList, redoList):
+    try:
+        result = cerinta7(lista)
+        undoList.append(lista)
+        redoList.clear()
+        return result
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+
+def uiundo(lista,undoList,redoList):
+    if len(undoList) > 0:
+        redoList.append(lista)
+        lista = undoList.pop()
+    else:
+        print('Nu se poate face undo')
+
+
+def uiredo(lista, undoList, redoList):
+    if len(redoList) > 0:
+        undoList.append(lista)
+        lista = redoList.pop()
+    else:
+        print("Nu se poate face redo!")
 
 
 def runmenu(lista):
-    undooperations = []
+    undoList = []
+    redoList =[]
     while True:
         printmenu()
         optiune = input('Dati optiunea: ')
         if optiune == '1':
-            lista = UIadaugarezervare(lista, undooperations)
+            lista = UIadaugarezervare(lista, undoList ,redoList)
         elif optiune == '2':
-            lista = UIstergerezervare(lista, undooperations)
+            lista = UIstergerezervare(lista, undoList ,redoList)
         elif optiune == '3':
-            lista = UImodificarezervare(lista, undooperations)
+            lista = UImodificarezervare(lista, undoList ,redoList)
         elif optiune == '4':
-            lista = cerinta4(lista)
+            lista =uicerinta4(lista, undoList, redoList)
         elif optiune == '5':
-            lista=uicerinta5(lista)
+            lista=uicerinta5(lista, undoList, redoList)
         elif optiune == '6':
             uicerinta6(lista)
         elif optiune == '7':
-            lista = cerinta7(lista)
+            print(uicerinta7(lista, undoList, redoList))
         elif optiune == '8':
-            uicerinta8(lista)
+            uicerinta8(lista, undoList, redoList)
         elif optiune == 'u':
-            if len(undooperations) > 0:
-                lista = undooperations.pop()()
-            else:
-                print('Nu se poate face undo')
-        #elif optiune == 'r':
-
+            uiundo(lista, undoList, redoList)
+        elif optiune == 'r':
+            uiredo(lista, undoList, redoList)
         elif optiune == 'a':
             showall(lista)
         elif optiune == 'x':

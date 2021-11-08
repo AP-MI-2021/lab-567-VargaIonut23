@@ -16,7 +16,9 @@ def main():
             break
         else:
             print('Optiune inexistenta')
-            break
+
 
 if __name__ == "__main__":
     main()
+
+#add,1,test,economy,300,nu,showall,delete,2

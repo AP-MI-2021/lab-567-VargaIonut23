@@ -19,7 +19,7 @@ def teststergerezervare():
     lista = stergerezervare("1" , lista)
     assert len(lista) == 1
     assert getbyid("1" , lista) is None
-
+    lista = adaugarezervare("3", "Denis", "business", 1118.90, "nu", lista)
     lista = stergerezervare("3", lista)
     assert len(lista) == 1
     assert getbyid("2", lista) is not None

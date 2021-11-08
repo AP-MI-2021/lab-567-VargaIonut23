@@ -7,26 +7,49 @@ def printDescriere():
     print("Comenzile pot fi: add, showall, delete, exit ")
     print("Parametri dintr-o comanda vor fi separati prin ,")
 
+
+def uiadaugarezervare(id, nume, clasa, pret, checkin, lista):
+    try:
+        return adaugarezervare(id, nume, clasa, pret, checkin, lista)
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+
+def uistergerezervare(id, lista):
+    try:
+        return stergerezervare(id, lista)
+    except ValueError as ve:
+        print("Eroare: {}".format(ve))
+        return lista
+
+
+def uishowall(lista):
+    for rezervare in lista:
+        print(toString(rezervare))
+
+
 def command_line_console(lista):
     print (printDescriere())
     lista = []
     listainput = []
-    while True:
+    shouldrun = True
+    while shouldrun:
         listainput = input("Dati lista de comenzi: ")
         listacomenzi = []
         listacomenzi = listainput.split(",")
         i = 1
         for i in range(len(listacomenzi)):
             if listacomenzi[i] == "add":
-                lista = adaugarezervare(listacomenzi[i+1], listacomenzi[i+2], listacomenzi[i+3], listacomenzi[i+4], listacomenzi[i+5], lista)
+                lista = uiadaugarezervare(listacomenzi[i+1], listacomenzi[i+2], listacomenzi[i+3], float(listacomenzi[i+4]), listacomenzi[i+5], lista)
                 i = i + 6
             elif listacomenzi[i] == "delete":
-                lista = stergerezervare(listacomenzi[i+1], lista)
+                lista = uistergerezervare(listacomenzi[i+1], lista)
                 i = i + 2
             elif listacomenzi[i] == "showall":
-                for rezervare in lista:
-                    print(toString(rezervare))
+                uishowall(lista)
                 i = i + 1
             elif listacomenzi[i] == "exit":
+                shouldrun = False
                 break
 

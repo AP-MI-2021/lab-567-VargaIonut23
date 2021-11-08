@@ -3,12 +3,21 @@ from Logic.CRUD import adaugarezervare, getbyid
 from Logic.cerinte import cerinta4, cerinta5, cerinta6economy, cerinta6economyplus, cerinta6business, cerinta7, cerinta8
 
 
+
 def testcerinta4():
     lista = []
     lista = adaugarezervare("1", "Ionut", "economy", 317.78, "da", lista)
     lista = adaugarezervare("2", "Denis", "business", 1119.90, "nu", lista)
     lista = adaugarezervare("3", "Robert", "economy plus", 890.02, "da", lista)
-    lista = cerinta4(lista)
+    lista = cerinta4(lista, 'Ionut')
+    assert getclasa(getbyid("1", lista)) == "economy plus"
+    assert getclasa(getbyid("2", lista)) == "business"
+    assert getclasa(getbyid("3", lista)) == "economy plus"
+    lista = cerinta4(lista, 'Robert')
+    assert getclasa(getbyid("1", lista)) == "economy plus"
+    assert getclasa(getbyid("2", lista)) == "business"
+    assert getclasa(getbyid("3", lista)) == "business"
+    lista = cerinta4(lista, 'Denis')
     assert getclasa(getbyid("1", lista)) == "economy plus"
     assert getclasa(getbyid("2", lista)) == "business"
     assert getclasa(getbyid("3", lista)) == "business"
@@ -84,3 +93,5 @@ def testcerinta8():
     assert len(rezultat) == 2
     assert rezultat['Ionut'] == 300
     assert rezultat['Robert'] == 1200
+
+

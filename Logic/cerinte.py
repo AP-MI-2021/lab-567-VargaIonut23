@@ -1,7 +1,7 @@
 from Domain.rezervare import creeazarezervare, getId, getnume, getclasa, getpret, getcheckin
 
 
-def cerinta4(lista):
+def cerinta4(lista, nume):
     '''
     creste clasa oricarei rezervari
     :param lista: lista de rezervari
@@ -16,10 +16,11 @@ def cerinta4(lista):
             getpret(rezervare),
             getcheckin(rezervare),
         )
-        if getclasa(rezervarenoua) == 'economy':
-            rezervarenoua['clasa'] = 'economy plus'
-        elif getclasa(rezervarenoua) == 'economy plus':
-            rezervarenoua['clasa'] = 'business'
+        if getnume(rezervarenoua) == nume:
+            if getclasa(rezervarenoua) == 'economy':
+                rezervarenoua['clasa'] = 'economy plus'
+            elif getclasa(rezervarenoua) == 'economy plus':
+                rezervarenoua['clasa'] = 'business'
         listanoua.append(rezervarenoua)
     return listanoua
 
@@ -119,3 +120,17 @@ def cerinta8(lista):
         else:
             rezultat[nume] = pret
     return rezultat
+
+def Undo(lista,undolist,redolist):
+    if len(undolist)>0:
+        redolist.append(lista)
+        lista = undolist.pop()
+    else:
+        return None
+    return lista
+
+def Redo(lista,undolist,redolist):
+    if len(redolist) > 0:
+        undolist.append(lista)
+        lista = redolist.pop()
+    return lista
